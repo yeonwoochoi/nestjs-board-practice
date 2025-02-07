@@ -16,6 +16,13 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "noFallthroughCasesInSwitch": false,
+    "types": ["node"]
+  },
+  "include": [
+    "src/**/*"  // src 폴더 내 모든 파일을 포함
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
