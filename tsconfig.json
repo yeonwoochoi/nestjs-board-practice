@@ -17,7 +17,7 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
-    "types": ["node"]
+    "types": ["node", "jest"],
   },
   "include": [
     "src/**/*"  // src 폴더 내 모든 파일을 포함
