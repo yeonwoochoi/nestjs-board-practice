@@ -32,6 +32,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
             throw new UnauthorizedException()
         }
 
-        return user;
+        return user; // req.user로 저장됨
     }
 }

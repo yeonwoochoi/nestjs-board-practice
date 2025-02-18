@@ -1,9 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { BoardStatus } from './boards.status.enum';
-import { CreateBoardDto } from './dto/create-board.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Board } from './board.entity';
-import { BoardRepository } from './board.repository';
+import {Injectable, NotFoundException} from '@nestjs/common';
+import {BoardStatus} from './boards.status.enum';
+import {CreateBoardDto} from './dto/create-board.dto';
+import {InjectRepository} from '@nestjs/typeorm';
+import {Board} from './board.entity';
+import {BoardRepository} from './board.repository';
+import {User} from "../auth/user.entity";
 
 @Injectable()
 export class BoardsService {
@@ -13,6 +14,14 @@ export class BoardsService {
 
   async getAllBoards(): Promise<Board[]> {
     return this.boardRepository.find(); // BoardRepository의 find() 메서드 사용
+  }
+
+  async getAllUserBoards(user: User): Promise<Board[]> {
+    return await this.boardRepository
+        .createQueryBuilder('board')
+        .where("board.userId = :userId", { userId: user.id })
+        .getMany()
+    //   return this.boardRepository.find({ where: { userId: user.id } }); 랑 같은 코드
   }
 
   async getBoardById(id: number): Promise<Board> {
@@ -25,8 +34,8 @@ export class BoardsService {
     return found;
   }
 
-  async createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
-    return this.boardRepository.createBoard(createBoardDto);
+  async createBoard(createBoardDto: CreateBoardDto, user: User): Promise<Board> {
+    return this.boardRepository.createBoard(createBoardDto, user);
   }
 
   async updateBoardStatus(id: number, status: BoardStatus): Promise<Board> {
